@@ -169,12 +169,19 @@
     <Folder Include="Converters\" />
     <Folder Include="Extensions\" />
     <Folder Include="Factories\Interfaces\" />
-    <Folder Include="Images\" />
     <Folder Include="Models\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\High Volume.png" />
+    <Resource Include="Images\Low Volume.png" />
+    <Resource Include="Images\Max Volume.png" />
+    <Resource Include="Images\Mute.png" />
+    <Resource Include="Images\Pause.png" />
+    <Resource Include="Images\Play.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.2.6\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.6\build\Fody.targets')" />
