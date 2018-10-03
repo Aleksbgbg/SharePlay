@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<BitmapImage x:Key="HighVolume" UriSource="/Images/High Volume.png"/>
+	<BitmapImage x:Key="Lightning" UriSource="/Images/Lightning.png"/>
 	<BitmapImage x:Key="LowVolume" UriSource="/Images/Low Volume.png"/>
 	<BitmapImage x:Key="MaxVolume" UriSource="/Images/Max Volume.png"/>
 	<BitmapImage x:Key="Mute" UriSource="/Images/Mute.png"/>
