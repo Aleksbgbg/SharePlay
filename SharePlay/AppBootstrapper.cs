@@ -6,6 +6,8 @@
 
     using Caliburn.Micro;
 
+    using SharePlay.Services;
+    using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels;
     using SharePlay.ViewModels.Interfaces;
 
@@ -27,6 +29,8 @@
         {
             // Register Services
             _container.Singleton<IWindowManager, WindowManager>();
+
+            _container.Singleton<IMediaPlayerService, MediaPlayerService>();
 
             // Register ViewModels
             _container.Singleton<IShellViewModel, ShellViewModel>();
