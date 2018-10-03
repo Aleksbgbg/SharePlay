@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="EventArgs\ProgressUpdatedEventArgs.cs" />
+    <Compile Include="Helpers\RoutedEventTrigger.cs" />
     <Compile Include="Services\Interfaces\IMediaPlayerService.cs" />
     <Compile Include="Services\MediaPlayerService.cs" />
     <Compile Include="ViewModels\Interfaces\IPlayerViewModel.cs" />
@@ -168,7 +169,6 @@
     <Folder Include="Converters\" />
     <Folder Include="Extensions\" />
     <Folder Include="Factories\Interfaces\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Images\" />
     <Folder Include="Models\" />
     <Folder Include="Utilities\" />
