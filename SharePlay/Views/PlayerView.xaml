@@ -1,9 +1,12 @@
 ﻿<UserControl x:Class="SharePlay.Views.PlayerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Caliburn="http://www.caliburnproject.org"
+             xmlns:Converters="clr-namespace:SharePlay.Converters"
+             xmlns:Helpers="clr-namespace:SharePlay.Helpers"
              xmlns:ViewModels="clr-namespace:SharePlay.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance ViewModels:PlayerViewModel}">
@@ -12,6 +15,68 @@
 
         <Button DockPanel.Dock="Bottom" Content="Play" 
                 Caliburn:Message.Attach="Play(videoUrl)"/>
+
+        <StackPanel DockPanel.Dock="Bottom">
+            <DockPanel Height="50">
+                <StackPanel Height="30" DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <Popup AllowsTransparency="True" IsOpen="{Binding IsChecked, ElementName=VolumeButton}"
+                           Placement="Left" PlacementTarget="{Binding ElementName=VolumeButton, Mode=OneTime}"
+                           StaysOpen="False" Width="75">
+                        <Slider Value="{Binding Volume, Delay=1, Converter={x:Static Converters:FractionToPercentageConverter.Default}}"
+                            Maximum="100" IsMoveToPointEnabled="True"
+                            AutoToolTipPlacement="TopLeft" Style="{StaticResource Slider.Smooth}"/>
+                    </Popup>
+
+                    <ToggleButton x:Name="VolumeButton" ToolTip="Volume">
+                        <Image Source="{Binding Volume, Converter={x:Static Converters:VolumeToImageConverter.Default}}"/>
+                    </ToggleButton>
+                </StackPanel>
+
+                <StackPanel Height="50" Orientation="Horizontal">
+                    <Button Caliburn:Message.Attach="TogglePlay">
+                        <Image>
+                            <Image.Style>
+                                <Style TargetType="Image" BasedOn="{StaticResource {x:Type Image}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                            <Setter Property="Source" Value="{StaticResource Pause}"/>
+                                            <Setter Property="ToolTip" Value="Pause"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsPlaying}" Value="False">
+                                            <Setter Property="Source" Value="{StaticResource Play}"/>
+                                            <Setter Property="ToolTip" Value="Play"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock Text="{Binding CurrentProgress, Mode=OneWay, Converter={x:Static Converters:TimeSpanDurationFormatConverter.Default}}"/>
+
+                <TextBlock DockPanel.Dock="Right"
+                           Text="{Binding Duration, Mode=OneWay, Converter={x:Static Converters:TimeSpanDurationFormatConverter.Default}}"/>
+
+                <Slider Value="{Binding CurrentProgress, Converter={x:Static Converters:TimeSpanToSecondsConverter.Default}, Delay=10}"
+                        Maximum="{Binding Duration, Mode=OneWay, Converter={x:Static Converters:TimeSpanToSecondsConverter.Default}}"
+                        IsMoveToPointEnabled="True" Margin="5, 0"
+                        Style="{StaticResource Slider.Smooth}">
+                    <i:Interaction.Triggers>
+                        <Helpers:RoutedEventTrigger RoutedEvent="Thumb.DragStarted">
+                            <Caliburn:ActionMessage MethodName="DragStarted"/>
+                        </Helpers:RoutedEventTrigger>
+
+                        <Helpers:RoutedEventTrigger RoutedEvent="Thumb.DragCompleted">
+                            <Caliburn:ActionMessage MethodName="DragCompleted"/>
+                        </Helpers:RoutedEventTrigger>
+                    </i:Interaction.Triggers>
+                </Slider>
+            </DockPanel>
+        </StackPanel>
 
         <MediaElement x:Name="Player" LoadedBehavior="Manual"/>
     </DockPanel>
