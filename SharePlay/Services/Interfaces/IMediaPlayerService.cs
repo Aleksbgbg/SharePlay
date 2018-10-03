@@ -26,6 +26,8 @@
 
         double Volume { get; set; }
 
+        double Speed { get; set; }
+
         void Initialize(MediaElement mediaElement);
 
         void Stop();

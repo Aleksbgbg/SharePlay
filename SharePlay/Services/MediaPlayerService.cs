@@ -61,6 +61,13 @@
             set => _mediaElement.Volume = value;
         }
 
+        public double Speed
+        {
+            get => _mediaElement.SpeedRatio;
+
+            set => _mediaElement.SpeedRatio = value;
+        }
+
         public void Initialize(MediaElement mediaElement)
         {
             _mediaElement = mediaElement;

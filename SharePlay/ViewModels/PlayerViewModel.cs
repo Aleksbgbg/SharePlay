@@ -50,6 +50,17 @@
             }
         }
 
+        public double Speed
+        {
+            get => _mediaPlayerService.Speed;
+
+            set
+            {
+                _mediaPlayerService.Speed = value;
+                NotifyOfPropertyChange(() => Speed);
+            }
+        }
+
         public void TogglePlay()
         {
             _mediaPlayerService.TogglePlay();

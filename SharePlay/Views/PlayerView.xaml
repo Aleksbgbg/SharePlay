@@ -27,8 +27,23 @@
                             AutoToolTipPlacement="TopLeft" Style="{StaticResource Slider.Smooth}"/>
                     </Popup>
 
+                    <Popup AllowsTransparency="True" IsOpen="{Binding IsChecked, ElementName=SpeedButton}"
+                           Placement="Left" PlacementTarget="{Binding ElementName=SpeedButton, Mode=OneTime}"
+                           StaysOpen="False" Width="75">
+                        <Slider
+                            Value="{Binding Speed, Delay=1}" Minimum="0.5" Maximum="5"
+                            TickFrequency="0.01"
+                            IsSnapToTickEnabled="True"
+                            IsMoveToPointEnabled="True" AutoToolTipPlacement="TopLeft"
+                            Style="{StaticResource Slider.Smooth}"/>
+                    </Popup>
+
                     <ToggleButton x:Name="VolumeButton" ToolTip="Volume">
                         <Image Source="{Binding Volume, Converter={x:Static Converters:VolumeToImageConverter.Default}}"/>
+                    </ToggleButton>
+
+                    <ToggleButton x:Name="SpeedButton" ToolTip="Speed">
+                        <Image Source="{StaticResource Lightning}"/>
                     </ToggleButton>
                 </StackPanel>
 
