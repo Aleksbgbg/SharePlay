@@ -5,9 +5,9 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    [Controller]
+    [ApiController]
     [Route("[Controller]")]
-    public class StreamController : Controller
+    public class StreamController : ControllerBase
     {
         [HttpGet("{videoUrl}")]
         public IActionResult GetVideoStream(string videoUrl)
