@@ -6,5 +6,6 @@
 	<BitmapImage x:Key="MaxVolume" UriSource="/Images/Max Volume.png"/>
 	<BitmapImage x:Key="Mute" UriSource="/Images/Mute.png"/>
 	<BitmapImage x:Key="Pause" UriSource="/Images/Pause.png"/>
-	<BitmapImage x:Key="Play" UriSource="/Images/Play.png"/>
+    <BitmapImage x:Key="Play" UriSource="/Images/Play.png"/>
+    <BitmapImage x:Key="Search" UriSource="/Images/Search.png"/>
 </ResourceDictionary>
