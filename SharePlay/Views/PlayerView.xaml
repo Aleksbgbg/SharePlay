@@ -11,10 +11,14 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance ViewModels:PlayerViewModel}">
     <DockPanel>
-        <TextBox DockPanel.Dock="Top" x:Name="VideoUrl"/>
+        <DockPanel DockPanel.Dock="Top">
+            <Button DockPanel.Dock="Right" ToolTip="Search"
+                    Caliburn:Message.Attach="Load(videoUrl)">
+                <Image Source="{StaticResource Search}" Height="25"/>
+            </Button>
 
-        <Button DockPanel.Dock="Bottom" Content="Play" 
-                Caliburn:Message.Attach="Play(videoUrl)"/>
+            <TextBox x:Name="VideoUrl"/>
+        </DockPanel>
 
         <StackPanel DockPanel.Dock="Bottom">
             <DockPanel Height="50">
@@ -28,7 +32,7 @@
                     </Popup>
 
                     <Popup AllowsTransparency="True" IsOpen="{Binding IsChecked, ElementName=SpeedButton}"
-                           Placement="Left" PlacementTarget="{Binding ElementName=SpeedButton, Mode=OneTime}"
+                           Placement="Top" PlacementTarget="{Binding ElementName=SpeedButton, Mode=OneTime}"
                            StaysOpen="False" Width="75">
                         <Slider
                             Value="{Binding Speed, Delay=1}" Minimum="0.5" Maximum="5"

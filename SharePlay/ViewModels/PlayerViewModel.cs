@@ -77,7 +77,7 @@
             _syncPlayer = true;
         }
 
-        public void Play(string videoUrl)
+        public void Load(string videoUrl)
         {
             _mediaPlayerService.Load(videoUrl);
         }
