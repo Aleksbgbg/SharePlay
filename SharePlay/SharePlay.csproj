@@ -97,9 +97,11 @@
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
     <Compile Include="Services\Interfaces\IMediaPlayerService.cs" />
     <Compile Include="Services\Interfaces\INetworkService.cs" />
+    <Compile Include="Services\Interfaces\IPlayClientService.cs" />
     <Compile Include="Services\Interfaces\IPlayServerService.cs" />
     <Compile Include="Services\MediaPlayerService.cs" />
     <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\PlayClientService.cs" />
     <Compile Include="Services\PlayServerService.cs" />
     <Compile Include="ViewModels\Interfaces\IPlayerViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
