@@ -31,6 +31,7 @@
             _container.Singleton<IWindowManager, WindowManager>();
 
             _container.Singleton<IMediaPlayerService, MediaPlayerService>();
+            _container.Singleton<INetworkService, NetworkService>();
 
             // Register ViewModels
             _container.Singleton<IShellViewModel, ShellViewModel>();
