@@ -1,5 +1,7 @@
 ﻿namespace SharePlay.Services
 {
+    using Caliburn.Micro;
+
     using SharePlay.Services.Interfaces;
 
     using SimpleTCP;
@@ -14,7 +16,7 @@
         {
             _networkService = networkService;
 
-            _tcpServer.DataReceived += (sender, e) =>
+            _tcpServer.DataReceived += (sender, e) => Execute.OnUIThread(() =>
             {
                 if (e.MessageString == "Play")
                 {
@@ -24,7 +26,7 @@
                 {
                     mediaPlayerService.Pause();
                 }
-            };
+            });
 
             mediaPlayerService.Played += (sender, e) => _tcpServer.Broadcast("Play");
             mediaPlayerService.Paused += (sender, e) => _tcpServer.Broadcast("Pause");
