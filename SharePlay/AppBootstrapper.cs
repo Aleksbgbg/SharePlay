@@ -33,6 +33,8 @@
             _container.Singleton<IMediaPlayerService, MediaPlayerService>();
             _container.Singleton<INetworkService, NetworkService>();
 
+            _container.Singleton<IPlayServerService, PlayServerService>();
+
             // Register ViewModels
             _container.Singleton<IShellViewModel, ShellViewModel>();
             _container.Singleton<IMainViewModel, MainViewModel>();
