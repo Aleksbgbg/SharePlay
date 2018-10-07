@@ -5,6 +5,8 @@
 
     internal interface INetworkService : IDisposable
     {
-        IPAddress ClientExternalIp { get; }
+        IPAddress ExternalIp { get; }
+
+        int Port { get; }
     }
 }

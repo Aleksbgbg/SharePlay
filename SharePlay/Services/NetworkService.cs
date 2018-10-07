@@ -33,7 +33,9 @@
             GC.SuppressFinalize(this);
         }
 
-        public IPAddress ClientExternalIp { get; private set; }
+        public IPAddress ExternalIp { get; private set; }
+
+        public int Port => NetworkPort;
 
         private static Mapping PortMap => new Mapping(Protocol.Tcp, NetworkPort, NetworkPort);
 
@@ -51,7 +53,7 @@
         {
             _mainNatDevice = mainNatDevice;
 
-            ClientExternalIp = mainNatDevice.GetExternalIP();
+            ExternalIp = mainNatDevice.GetExternalIP();
 
             mainNatDevice.CreatePortMap(PortMap);
         }
