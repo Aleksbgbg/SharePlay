@@ -94,6 +94,8 @@
     <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\VolumeToImageConverter.cs" />
     <Compile Include="EventArgs\ProgressUpdatedEventArgs.cs" />
+    <Compile Include="Factories\Interfaces\INetworkFactory.cs" />
+    <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
     <Compile Include="Services\Interfaces\IMediaPlayerService.cs" />
     <Compile Include="Services\Interfaces\INetworkService.cs" />
@@ -183,7 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Factories\Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="Utilities\" />
   </ItemGroup>

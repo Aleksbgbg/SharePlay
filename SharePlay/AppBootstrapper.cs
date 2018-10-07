@@ -6,6 +6,8 @@
 
     using Caliburn.Micro;
 
+    using SharePlay.Factories;
+    using SharePlay.Factories.Interfaces;
     using SharePlay.Services;
     using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels;
@@ -27,6 +29,9 @@
 
         protected override void Configure()
         {
+            // Register Factories
+            _container.Singleton<INetworkFactory, NetworkFactory>();
+
             // Register Services
             _container.Singleton<IWindowManager, WindowManager>();
 
