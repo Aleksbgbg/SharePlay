@@ -6,6 +6,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using StreamServer.Services;
+    using StreamServer.Services.Interfaces;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -19,6 +22,8 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<IVideoStreamingService, VideoStreamingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
