@@ -45,6 +45,8 @@
             _container.Singleton<IShellViewModel, ShellViewModel>();
             _container.Singleton<IMainViewModel, MainViewModel>();
             _container.Singleton<IPlayerViewModel, PlayerViewModel>();
+
+            _container.Singleton<IHostServerViewModel, HostServerViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)

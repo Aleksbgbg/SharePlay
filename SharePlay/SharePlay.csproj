@@ -77,6 +77,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\HostServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,8 +110,14 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\PlayClientService.cs" />
     <Compile Include="Services\PlayServerService.cs" />
+    <Compile Include="ViewModels\HostServerViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IHostServerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IPlayerViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="Views\HostServerView.xaml.cs">
+      <DependentUpon>HostServerView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
