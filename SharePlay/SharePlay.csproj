@@ -97,6 +97,7 @@
     <Compile Include="Factories\Interfaces\INetworkFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
+    <Compile Include="Models\NetworkAddress.cs" />
     <Compile Include="Services\Interfaces\IMediaPlayerService.cs" />
     <Compile Include="Services\Interfaces\INetworkService.cs" />
     <Compile Include="Services\Interfaces\IPlayClientService.cs" />
@@ -185,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Models\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
