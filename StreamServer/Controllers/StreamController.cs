@@ -1,26 +1,31 @@
 ﻿namespace StreamServer.Controllers
 {
-    using System.Diagnostics;
+    using System.IO;
     using System.Net;
 
     using Microsoft.AspNetCore.Mvc;
+
+    using StreamServer.Services.Interfaces;
 
     [ApiController]
     [Route("[Controller]")]
     public class StreamController : ControllerBase
     {
+        private readonly IVideoStreamingService _videoStreamingService;
+
+        public StreamController(IVideoStreamingService videoStreamingService)
+        {
+            _videoStreamingService = videoStreamingService;
+        }
+
         [HttpGet("{videoUrl}")]
         public IActionResult GetVideoStream(string videoUrl)
         {
             string decodedUrl = WebUtility.UrlDecode(videoUrl);
 
-            Process streamProcess = Process.Start(new ProcessStartInfo(@"Resources\youtube-dl.exe", $"-o - -- {decodedUrl}")
-            {
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            });
+            Stream videoStream = _videoStreamingService.StreamVideo(decodedUrl);
 
-            return new FileStreamResult(streamProcess.StandardOutput.BaseStream, "application/octet-stream");
+            return new FileStreamResult(videoStream, "application/octet-stream");
         }
     }
 }
