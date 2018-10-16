@@ -14,7 +14,7 @@
         {
             string decodedUrl = WebUtility.UrlDecode(videoUrl);
 
-            Process streamProcess = Process.Start(new ProcessStartInfo(@"Resources\youtube-dl.exe", $"{decodedUrl} -o -")
+            Process streamProcess = Process.Start(new ProcessStartInfo(@"Resources\youtube-dl.exe", $"-o - -- {decodedUrl}")
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false
