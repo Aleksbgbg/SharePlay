@@ -7,5 +7,14 @@
         xmlns:ViewModels="clr-namespace:SharePlay.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance ViewModels:ShellViewModel}">
-    <ContentControl Caliburn:View.Model="{Binding MainViewModel}"/>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Connect">
+                <MenuItem Header="_Host Server" Caliburn:Message.Attach="ShowHostWindow"/>
+                <MenuItem Header="_Join Server" Caliburn:Message.Attach="ShowJoinWindow"/>
+            </MenuItem>
+        </Menu>
+
+        <ContentControl Caliburn:View.Model="{Binding MainViewModel}"/>
+    </DockPanel>
 </Window>

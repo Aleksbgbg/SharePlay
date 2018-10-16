@@ -12,5 +12,13 @@
         }
 
         public IMainViewModel MainViewModel { get; }
+
+        public void ShowHostWindow()
+        {
+        }
+
+        public void ShowJoinWindow()
+        {
+        }
     }
 }
