@@ -27,9 +27,11 @@
                         <Setter Property="Content">
                             <Setter.Value>
                                 <DockPanel>
-                                    <TextBox DockPanel.Dock="Top"
-                                             Text="{Binding HostAddress, Mode=OneTime}"
-                                             IsReadOnly="True"/>
+                                    <DockPanel DockPanel.Dock="Top">
+                                        <Button DockPanel.Dock="Right" Content="Host"/>
+                                        <TextBox Text="{Binding HostAddress, Mode=OneTime}"
+                                                 IsReadOnly="True"/>
+                                    </DockPanel>
 
                                     <ListBox ItemsSource="{Binding ConnectedUsers, Mode=OneTime}"/>
                                 </DockPanel>

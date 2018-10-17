@@ -11,8 +11,11 @@
 
     internal class HostServerViewModel : ViewModelBase, IHostServerViewModel
     {
-        public HostServerViewModel(INetworkService networkService)
+        private readonly IPlayServerService _playServerService;
+
+        public HostServerViewModel(INetworkService networkService, IPlayServerService playServerService)
         {
+            _playServerService = playServerService;
             Task.Run(async () => await networkService.ConfigureMachineForHosting().ContinueWith(task =>
             {
                 HostAddress = new NetworkAddress(networkService.ExternalIp, 3555);
@@ -36,6 +39,11 @@
                 _isIsLoading = value;
                 NotifyOfPropertyChange(() => IsLoading);
             }
+        }
+
+        public void Host()
+        {
+            _playServerService.Host(3555);
         }
     }
 }
