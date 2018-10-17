@@ -47,6 +47,7 @@
             _container.Singleton<IPlayerViewModel, PlayerViewModel>();
 
             _container.Singleton<IHostServerViewModel, HostServerViewModel>();
+            _container.Singleton<IJoinServerViewModel, JoinServerViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)

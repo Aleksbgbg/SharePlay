@@ -81,6 +81,10 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
+    <Page Include="Views\JoinServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,11 +116,16 @@
     <Compile Include="Services\PlayServerService.cs" />
     <Compile Include="ViewModels\HostServerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IHostServerViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IJoinServerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IPlayerViewModel.cs" />
+    <Compile Include="ViewModels\JoinServerViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="Views\HostServerView.xaml.cs">
       <DependentUpon>HostServerView.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\JoinServerView.xaml.cs">
+      <DependentUpon>JoinServerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
