@@ -30,6 +30,7 @@
         protected override void Configure()
         {
             // Register Factories
+            _container.Singleton<IConnectionFactory, ConnectionFactory>();
             _container.Singleton<INetworkFactory, NetworkFactory>();
 
             // Register Services

@@ -102,6 +102,8 @@
     <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\VolumeToImageConverter.cs" />
     <Compile Include="EventArgs\ProgressUpdatedEventArgs.cs" />
+    <Compile Include="Factories\ConnectionFactory.cs" />
+    <Compile Include="Factories\Interfaces\IConnectionFactory.cs" />
     <Compile Include="Factories\Interfaces\INetworkFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
