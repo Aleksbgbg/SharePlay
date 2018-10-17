@@ -1,9 +1,11 @@
 ﻿namespace SharePlay.Services.Interfaces
 {
+    using System.Threading.Tasks;
+
     using SharePlay.Models;
 
     internal interface IPlayClientService
     {
-        void Connect(NetworkAddress networkAddress);
+        Task<bool> TryConnect(NetworkAddress networkAddress);
     }
 }

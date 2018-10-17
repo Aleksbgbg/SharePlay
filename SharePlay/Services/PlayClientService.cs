@@ -1,5 +1,8 @@
 ﻿namespace SharePlay.Services
 {
+    using System.Net.Sockets;
+    using System.Threading.Tasks;
+
     using Caliburn.Micro;
 
     using SharePlay.Models;
@@ -29,9 +32,20 @@
             mediaPlayerService.Paused += (sender, e) => _tcpClient.Write("Pause");
         }
 
-        public void Connect(NetworkAddress networkAddress)
+        public async Task<bool> TryConnect(NetworkAddress networkAddress)
         {
-            _tcpClient.Connect(networkAddress.IpAddress.ToString(), networkAddress.Port);
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    _tcpClient.Connect(networkAddress.IpAddress.ToString(), networkAddress.Port);
+                    return true;
+                }
+                catch (SocketException)
+                {
+                    return false;
+                }
+            });
         }
     }
 }
