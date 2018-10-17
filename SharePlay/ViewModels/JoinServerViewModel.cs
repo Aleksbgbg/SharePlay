@@ -1,5 +1,9 @@
 ﻿namespace SharePlay.ViewModels
 {
+    using System.Collections.Generic;
+
+    using Caliburn.Micro;
+
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels.Interfaces;
@@ -27,10 +31,15 @@
             }
         }
 
-        public void Connect(string targetAddress)
+        public IEnumerable<IResult> Connect(string targetAddress)
         {
-            _playClientService.Connect(NetworkAddress.Parse(targetAddress));
-            Status = "Connected";
+            Status = "Connecting";
+
+            TaskResult<bool> connectResult = _playClientService.TryConnect(NetworkAddress.Parse(targetAddress)).AsResult();
+
+            yield return connectResult;
+
+            Status = connectResult.Result ? "Connected" : "Disconnected";
         }
     }
 }
