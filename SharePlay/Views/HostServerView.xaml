@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Caliburn="http://www.caliburnproject.org"
              xmlns:LoadingIndicators="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
              xmlns:ViewModels="clr-namespace:SharePlay.ViewModels"
              mc:Ignorable="d"
@@ -28,7 +29,8 @@
                             <Setter.Value>
                                 <DockPanel>
                                     <DockPanel DockPanel.Dock="Top">
-                                        <Button DockPanel.Dock="Right" Content="Host"/>
+                                        <Button DockPanel.Dock="Right" Content="Host"
+                                                Caliburn:Message.Attach="Host"/>
                                         <TextBox Text="{Binding HostAddress, Mode=OneTime}"
                                                  IsReadOnly="True"/>
                                     </DockPanel>
