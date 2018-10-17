@@ -1,7 +1,11 @@
 ﻿namespace SharePlay.Services
 {
+    using System;
+    using System.Net;
+
     using Caliburn.Micro;
 
+    using SharePlay.EventArgs;
     using SharePlay.Services.Interfaces;
 
     using SimpleTCP;
@@ -15,6 +19,9 @@
         public PlayServerService(IMediaPlayerService mediaPlayerService, INetworkService networkService)
         {
             _networkService = networkService;
+
+            _tcpServer.ClientConnected += (sender, e) => ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
+            _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
 
             _tcpServer.DataReceived += (sender, e) => Execute.OnUIThread(() =>
             {
@@ -31,6 +38,10 @@
             mediaPlayerService.Played += (sender, e) => _tcpServer.Broadcast("Play");
             mediaPlayerService.Paused += (sender, e) => _tcpServer.Broadcast("Pause");
         }
+
+        public event EventHandler<ClientConnectedEventArgs> ClientConnected;
+
+        public event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
 
         public void Host(int port)
         {
