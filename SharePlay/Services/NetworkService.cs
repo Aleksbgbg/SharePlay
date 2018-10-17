@@ -7,6 +7,7 @@
     using Mono.Nat;
 
     using SharePlay.Services.Interfaces;
+    using SharePlay.Utilities;
 
     internal class NetworkService : INetworkService
     {
@@ -35,6 +36,8 @@
 
                 Setup(e.Device);
 
+                FirewallUtilities.OpenPort(NetworkPort, "SharePlay");
+
                 taskCompletionSource.SetResult(null);
             }
 
@@ -54,6 +57,7 @@
         private void Dispose(bool disposing)
         {
             _mainNatDevice.DeletePortMap(PortMap);
+            FirewallUtilities.ClosePort(NetworkPort);
         }
 
         private void Setup(INatDevice mainNatDevice)
