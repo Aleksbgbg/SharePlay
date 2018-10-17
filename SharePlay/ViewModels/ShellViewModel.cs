@@ -1,22 +1,17 @@
 ﻿namespace SharePlay.ViewModels
 {
-    using Caliburn.Micro;
-
-    using SharePlay.Factories.Interfaces;
+    using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels.Interfaces;
 
     internal sealed class ShellViewModel : ViewModelBase, IShellViewModel
     {
-        private readonly IConnectionFactory _connectionFactory;
+        private readonly IConnectionWindowService _connectionWindowService;
 
-        private readonly IWindowManager _windowManager;
-
-        public ShellViewModel(IConnectionFactory connectionFactory, IWindowManager windowManager, IMainViewModel mainViewModel)
+        public ShellViewModel(IConnectionWindowService connectionWindowService, IMainViewModel mainViewModel)
         {
             DisplayName = "SharePlay";
 
-            _connectionFactory = connectionFactory;
-            _windowManager = windowManager;
+            _connectionWindowService = connectionWindowService;
             MainViewModel = mainViewModel;
         }
 
@@ -24,12 +19,12 @@
 
         public void ShowHostWindow()
         {
-            _windowManager.ShowWindow(_connectionFactory.MakeHostServerViewModel());
+            _connectionWindowService.ShowHostWindow();
         }
 
         public void ShowJoinWindow()
         {
-            _windowManager.ShowWindow(_connectionFactory.MakeJoinServerViewModel());
+            _connectionWindowService.ShowJoinWindow();
         }
     }
 }
