@@ -16,6 +16,10 @@
         public HostServerViewModel(INetworkService networkService, IPlayServerService playServerService)
         {
             _playServerService = playServerService;
+
+            playServerService.ClientConnected += (sender, e) => ConnectedUsers.Add(e.Address);
+            playServerService.ClientDisconnected += (sender, e) => ConnectedUsers.Remove(e.Address);
+
             Task.Run(async () => await networkService.ConfigureMachineForHosting().ContinueWith(task =>
             {
                 HostAddress = new NetworkAddress(networkService.ExternalIp, 3555);
