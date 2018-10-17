@@ -2,13 +2,14 @@
 {
     using Caliburn.Micro;
 
+    using SharePlay.Models;
     using SharePlay.Services.Interfaces;
 
     using SimpleTCP;
 
     internal class PlayClientService : IPlayClientService
     {
-        private readonly SimpleTcpClient _tcpClient = new SimpleTcpClient().Connect("localhost", 3555);
+        private readonly SimpleTcpClient _tcpClient = new SimpleTcpClient();
 
         public PlayClientService(IMediaPlayerService mediaPlayerService)
         {
@@ -26,6 +27,11 @@
 
             mediaPlayerService.Played += (sender, e) => _tcpClient.Write("Play");
             mediaPlayerService.Paused += (sender, e) => _tcpClient.Write("Pause");
+        }
+
+        public void Connect(NetworkAddress networkAddress)
+        {
+            _tcpClient.Connect(networkAddress.IpAddress.ToString(), networkAddress.Port);
         }
     }
 }
