@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net;
+    using System.Threading.Tasks;
 
     using Mono.Nat;
 
@@ -13,20 +14,6 @@
 
         private INatDevice _mainNatDevice;
 
-        public NetworkService()
-        {
-            void NatUtilityDeviceFound(object sender, DeviceEventArgs e)
-            {
-                NatUtility.StopDiscovery();
-                NatUtility.DeviceFound -= NatUtilityDeviceFound;
-
-                Setup(e.Device);
-            }
-
-            NatUtility.DeviceFound += NatUtilityDeviceFound;
-            NatUtility.StartDiscovery();
-        }
-
         ~NetworkService()
         {
             Dispose(false);
@@ -36,6 +23,26 @@
         public IPAddress ExternalIp { get; private set; }
 
         public int Port => NetworkPort;
+
+        public Task ConfigureMachineForHosting()
+        {
+            TaskCompletionSource<object> taskCompletionSource = new TaskCompletionSource<object>();
+
+            void NatUtilityDeviceFound(object sender, DeviceEventArgs e)
+            {
+                NatUtility.StopDiscovery();
+                NatUtility.DeviceFound -= NatUtilityDeviceFound;
+
+                Setup(e.Device);
+
+                taskCompletionSource.SetResult(null);
+            }
+
+            NatUtility.DeviceFound += NatUtilityDeviceFound;
+            NatUtility.StartDiscovery();
+
+            return taskCompletionSource.Task;
+        }
 
         private static Mapping PortMap => new Mapping(Protocol.Tcp, NetworkPort, NetworkPort);
 
