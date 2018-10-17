@@ -86,6 +86,8 @@
 
         public void Play()
         {
+            if (IsPlaying) return;
+
             _mediaElement.Play();
             IsPlaying = true;
             Played?.Invoke(this, EventArgs.Empty);
@@ -94,6 +96,8 @@
 
         public void Pause()
         {
+            if (!IsPlaying) return;
+
             _mediaElement.Pause();
             IsPlaying = false;
             Paused?.Invoke(this, EventArgs.Empty);
@@ -116,7 +120,7 @@
         {
             string encodedUrl = WebUtility.UrlEncode(url);
 
-            _mediaElement.Source = new Uri($"http://localhost:3000/stream/{encodedUrl}");
+            _mediaElement.Source = new Uri($"http://localhost:5000/stream/{encodedUrl}");
             Play();
         }
     }
