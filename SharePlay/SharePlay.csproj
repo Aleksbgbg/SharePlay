@@ -138,6 +138,7 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\PlayClientService.cs" />
     <Compile Include="Services\PlayServerService.cs" />
+    <Compile Include="Utilities\FirewallUtilities.cs" />
     <Compile Include="ViewModels\HostServerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IHostServerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IJoinServerViewModel.cs" />
@@ -229,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
