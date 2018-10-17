@@ -13,6 +13,8 @@
                 <ResourceDictionary Source="Themes/Geometries.xaml"/>
                 <ResourceDictionary Source="Themes/Images.xaml"/>
                 <ResourceDictionary Source="Themes/Styles.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingRing.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Image">
