@@ -3,14 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:LoadingIndicators="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
              xmlns:ViewModels="clr-namespace:SharePlay.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance ViewModels:HostServerViewModel}">
-    <DockPanel>
-        <TextBox DockPanel.Dock="Top"
-                 Text="{Binding HostAddress, Mode=OneTime}"
-                 IsReadOnly="True"/>
+    <ContentControl>
+        <ContentControl.Style>
+            <Style TargetType="ContentControl">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <StackPanel VerticalAlignment="Center">
+                                    <LoadingIndicators:LoadingIndicator Foreground="DeepSkyBlue"
+                                                                        Style="{StaticResource LoadingIndicatorRingStyleKey}"/>
+                                    <TextBlock Text="We are configuring your machine for hosting."
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsLoading}" Value="False">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <DockPanel>
+                                    <TextBox DockPanel.Dock="Top"
+                                             Text="{Binding HostAddress, Mode=OneTime}"
+                                             IsReadOnly="True"/>
 
-        <ListBox ItemsSource="{Binding ConnectedUsers, Mode=OneTime}"/>
-    </DockPanel>
+                                    <ListBox ItemsSource="{Binding ConnectedUsers, Mode=OneTime}"/>
+                                </DockPanel>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
 </UserControl>
