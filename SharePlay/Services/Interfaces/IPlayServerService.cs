@@ -2,5 +2,6 @@
 {
     internal interface IPlayServerService
     {
+        void Host(int port);
     }
 }

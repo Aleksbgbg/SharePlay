@@ -10,7 +10,7 @@
     {
         private readonly INetworkService _networkService;
 
-        private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer().Start(3555);
+        private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer();
 
         public PlayServerService(IMediaPlayerService mediaPlayerService, INetworkService networkService)
         {
@@ -30,6 +30,11 @@
 
             mediaPlayerService.Played += (sender, e) => _tcpServer.Broadcast("Play");
             mediaPlayerService.Paused += (sender, e) => _tcpServer.Broadcast("Pause");
+        }
+
+        public void Host(int port)
+        {
+            _tcpServer.Start(port);
         }
     }
 }
