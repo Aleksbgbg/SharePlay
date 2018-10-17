@@ -108,6 +108,8 @@
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
     <Compile Include="Models\NetworkAddress.cs" />
+    <Compile Include="Services\ConnectionWindowService.cs" />
+    <Compile Include="Services\Interfaces\IConnectionWindowService.cs" />
     <Compile Include="Services\Interfaces\IMediaPlayerService.cs" />
     <Compile Include="Services\Interfaces\INetworkService.cs" />
     <Compile Include="Services\Interfaces\IPlayClientService.cs" />

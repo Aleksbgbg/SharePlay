@@ -36,6 +36,8 @@
             // Register Services
             _container.Singleton<IWindowManager, WindowManager>();
 
+            _container.Singleton<IConnectionWindowService, ConnectionWindowService>();
+
             _container.Singleton<IMediaPlayerService, MediaPlayerService>();
             _container.Singleton<INetworkService, NetworkService>();
 
