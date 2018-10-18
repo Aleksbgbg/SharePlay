@@ -7,6 +7,7 @@
 
     using SharePlay.EventArgs;
     using SharePlay.Services.Interfaces;
+    using SharePlay.Utilities;
 
     using SimpleTCP;
 
@@ -15,6 +16,8 @@
         private readonly INetworkService _networkService;
 
         private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer();
+
+        private readonly ActionBroadcastingUtility _actionBroadcastingUtility = new ActionBroadcastingUtility();
 
         public PlayServerService(IMediaPlayerService mediaPlayerService, INetworkService networkService)
         {
@@ -35,8 +38,7 @@
                 }
             });
 
-            mediaPlayerService.Played += (sender, e) => _tcpServer.Broadcast("Play");
-            mediaPlayerService.Paused += (sender, e) => _tcpServer.Broadcast("Pause");
+            _actionBroadcastingUtility.BroadcastActions(mediaPlayerService, _tcpServer.Broadcast);
         }
 
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;

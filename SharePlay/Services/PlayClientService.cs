@@ -7,12 +7,15 @@
 
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
+    using SharePlay.Utilities;
 
     using SimpleTCP;
 
     internal class PlayClientService : IPlayClientService
     {
         private readonly SimpleTcpClient _tcpClient = new SimpleTcpClient();
+
+        private readonly ActionBroadcastingUtility _actionBroadcastingUtility = new ActionBroadcastingUtility();
 
         public PlayClientService(IMediaPlayerService mediaPlayerService)
         {
@@ -28,8 +31,7 @@
                 }
             });
 
-            mediaPlayerService.Played += (sender, e) => _tcpClient.Write("Play");
-            mediaPlayerService.Paused += (sender, e) => _tcpClient.Write("Pause");
+            _actionBroadcastingUtility.BroadcastActions(mediaPlayerService, _tcpClient.Write);
         }
 
         public async Task<bool> TryConnect(NetworkAddress networkAddress)
