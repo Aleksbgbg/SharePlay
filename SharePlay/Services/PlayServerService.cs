@@ -36,7 +36,7 @@
 
         public void Host(int port)
         {
-            _tcpServer.Start(port);
+            _tcpServer.Start(IPAddress.Any, port);
         }
     }
 }
