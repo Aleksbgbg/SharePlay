@@ -3,8 +3,6 @@
     using System;
     using System.Net;
 
-    using Caliburn.Micro;
-
     using SharePlay.EventArgs;
     using SharePlay.Services.Interfaces;
     using SharePlay.Utilities;
@@ -17,28 +15,19 @@
 
         private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer();
 
-        private readonly ActionBroadcastingUtility _actionBroadcastingUtility = new ActionBroadcastingUtility();
+        private readonly ActionBroadcastingUtility _actionBroadcastingUtility;
 
         public PlayServerService(IMediaPlayerService mediaPlayerService, INetworkService networkService)
         {
             _networkService = networkService;
+            _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
 
             _tcpServer.ClientConnected += (sender, e) => ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
             _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
 
-            _tcpServer.DataReceived += (sender, e) => Execute.OnUIThread(() =>
-            {
-                if (e.MessageString == "Play")
-                {
-                    mediaPlayerService.Play();
-                }
-                else
-                {
-                    mediaPlayerService.Pause();
-                }
-            });
+            _tcpServer.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
 
-            _actionBroadcastingUtility.BroadcastActions(mediaPlayerService, _tcpServer.Broadcast);
+            _actionBroadcastingUtility.BroadcastAllActions(_tcpServer.Broadcast);
         }
 
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;

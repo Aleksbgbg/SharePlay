@@ -3,8 +3,6 @@
     using System.Net.Sockets;
     using System.Threading.Tasks;
 
-    using Caliburn.Micro;
-
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
     using SharePlay.Utilities;
@@ -15,23 +13,15 @@
     {
         private readonly SimpleTcpClient _tcpClient = new SimpleTcpClient();
 
-        private readonly ActionBroadcastingUtility _actionBroadcastingUtility = new ActionBroadcastingUtility();
+        private readonly ActionBroadcastingUtility _actionBroadcastingUtility;
 
         public PlayClientService(IMediaPlayerService mediaPlayerService)
         {
-            _tcpClient.DataReceived += (sender, e) => Execute.OnUIThread(() =>
-            {
-                if (e.MessageString == "Play")
-                {
-                    mediaPlayerService.Play();
-                }
-                else
-                {
-                    mediaPlayerService.Pause();
-                }
-            });
+            _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
 
-            _actionBroadcastingUtility.BroadcastActions(mediaPlayerService, _tcpClient.Write);
+            _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
+
+            _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
         }
 
         public async Task<bool> TryConnect(NetworkAddress networkAddress)
