@@ -11,15 +11,12 @@
 
     internal class PlayServerService : IPlayServerService
     {
-        private readonly INetworkService _networkService;
-
         private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer();
 
         private readonly ActionBroadcastingUtility _actionBroadcastingUtility;
 
-        public PlayServerService(IMediaPlayerService mediaPlayerService, INetworkService networkService)
+        public PlayServerService(IMediaPlayerService mediaPlayerService)
         {
-            _networkService = networkService;
             _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
         }
 
