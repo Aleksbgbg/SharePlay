@@ -21,13 +21,6 @@
         {
             _networkService = networkService;
             _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
-
-            _tcpServer.ClientConnected += (sender, e) => ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
-            _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
-
-            _tcpServer.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
-
-            _actionBroadcastingUtility.BroadcastAllActions(_tcpServer.Broadcast);
         }
 
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
@@ -37,6 +30,13 @@
         public void Host(int port)
         {
             _tcpServer.Start(IPAddress.Any, port);
+
+            _tcpServer.ClientConnected += (sender, e) => ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
+            _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
+
+            _tcpServer.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
+
+            _actionBroadcastingUtility.BroadcastAllActions(_tcpServer.Broadcast);
         }
     }
 }

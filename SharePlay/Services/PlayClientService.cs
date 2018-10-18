@@ -18,15 +18,11 @@
         public PlayClientService(IMediaPlayerService mediaPlayerService)
         {
             _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
-
-            _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
-
-            _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
         }
 
         public async Task<bool> TryConnect(NetworkAddress networkAddress)
         {
-            return await Task.Run(() =>
+            bool result = await Task.Run(() =>
             {
                 try
                 {
@@ -38,6 +34,12 @@
                     return false;
                 }
             });
+
+            _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
+
+            _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
+
+            return result;
         }
     }
 }
