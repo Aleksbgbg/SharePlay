@@ -35,9 +35,12 @@
                 }
             });
 
-            _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
+            if (result)
+            {
+                _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
 
-            _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
+                _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
+            }
 
             return result;
         }
