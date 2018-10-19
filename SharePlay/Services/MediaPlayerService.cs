@@ -6,6 +6,8 @@
     using System.Windows.Controls;
     using System.Windows.Threading;
 
+    using Shared.Configuration;
+
     using SharePlay.EventArgs;
     using SharePlay.Services.Interfaces;
 
@@ -120,7 +122,7 @@
         {
             string encodedUrl = WebUtility.UrlEncode(url);
 
-            _mediaElement.Source = new Uri($"http://localhost:5000/stream/{encodedUrl}");
+            _mediaElement.Source = new Uri($"http://localhost:{Constants.StreamServerPort}/stream/{encodedUrl}");
             Play();
         }
     }

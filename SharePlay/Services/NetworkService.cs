@@ -6,12 +6,14 @@
 
     using Mono.Nat;
 
+    using Shared.Configuration;
+
     using SharePlay.Services.Interfaces;
     using SharePlay.Utilities;
 
     internal class NetworkService : INetworkService
     {
-        private const int NetworkPort = 3555;
+        private const int NetworkPort = Constants.SharePlayPort;
 
         private INatDevice _mainNatDevice;
 
@@ -24,6 +26,19 @@
         public IPAddress ExternalIp { get; private set; }
 
         public int Port => NetworkPort;
+
+        private static Mapping PortMap => new Mapping(Protocol.Tcp, NetworkPort, NetworkPort);
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            _mainNatDevice.DeletePortMap(PortMap);
+            FirewallUtilities.ClosePort(NetworkPort);
+        }
 
         public Task ConfigureMachineForHosting()
         {
@@ -45,19 +60,6 @@
             NatUtility.StartDiscovery();
 
             return taskCompletionSource.Task;
-        }
-
-        private static Mapping PortMap => new Mapping(Protocol.Tcp, NetworkPort, NetworkPort);
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            _mainNatDevice.DeletePortMap(PortMap);
-            FirewallUtilities.ClosePort(NetworkPort);
         }
 
         private void Setup(INatDevice mainNatDevice)

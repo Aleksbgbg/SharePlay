@@ -11,10 +11,13 @@
 
     internal class HostServerViewModel : ViewModelBase, IHostServerViewModel
     {
+        private readonly INetworkService _networkService;
+
         private readonly IPlayServerService _playServerService;
 
         public HostServerViewModel(INetworkService networkService, IPlayServerService playServerService)
         {
+            _networkService = networkService;
             _playServerService = playServerService;
 
             playServerService.ClientConnected += (sender, e) => ConnectedUsers.Add(e.Address);
@@ -22,7 +25,7 @@
 
             Task.Run(async () => await networkService.ConfigureMachineForHosting().ContinueWith(task =>
             {
-                HostAddress = new NetworkAddress(networkService.ExternalIp, 3555);
+                HostAddress = new NetworkAddress(networkService.ExternalIp, networkService.Port);
                 IsLoading = false;
             }));
         }
@@ -47,7 +50,7 @@
 
         public void Host()
         {
-            _playServerService.Host(3555);
+            _playServerService.Host(_networkService.Port);
         }
     }
 }
