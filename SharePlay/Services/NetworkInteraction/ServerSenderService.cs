@@ -123,11 +123,11 @@
         {
             if (IsPlaying)
             {
-                Play();
+                Pause();
             }
             else
             {
-                Pause();
+                Play();
             }
         }
 
