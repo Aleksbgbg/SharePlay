@@ -36,6 +36,7 @@
             _container.Singleton<INetworkFactory, NetworkFactory>();
 
             // Register Services
+            _container.Singleton<IEventAggregator, EventAggregator>();
             _container.Singleton<IWindowManager, WindowManager>();
 
             _container.Singleton<IConnectionWindowService, ConnectionWindowService>();
