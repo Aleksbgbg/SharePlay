@@ -10,6 +10,8 @@
     using SharePlay.Factories.Interfaces;
     using SharePlay.Services;
     using SharePlay.Services.Interfaces;
+    using SharePlay.Services.NetworkInteraction;
+    using SharePlay.Services.NetworkInteraction.Interfaces;
     using SharePlay.ViewModels;
     using SharePlay.ViewModels.Interfaces;
 
@@ -43,6 +45,8 @@
 
             _container.Singleton<IPlayServerService, PlayServerService>();
             _container.Singleton<IPlayClientService, PlayClientService>();
+
+            _container.Singleton<IClientSenderService, ClientSenderService>();
 
             // Register ViewModels
             _container.Singleton<IShellViewModel, ShellViewModel>();

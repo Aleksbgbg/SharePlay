@@ -135,6 +135,8 @@
     <Compile Include="Services\Interfaces\IPlayClientService.cs" />
     <Compile Include="Services\Interfaces\IPlayServerService.cs" />
     <Compile Include="Services\MediaPlayerService.cs" />
+    <Compile Include="Services\NetworkInteraction\Interfaces\IClientSenderService.cs" />
+    <Compile Include="Services\NetworkInteraction\ClientSenderService.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\PlayClientService.cs" />
     <Compile Include="Services\PlayServerService.cs" />
