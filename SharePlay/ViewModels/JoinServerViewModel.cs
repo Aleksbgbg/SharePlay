@@ -4,16 +4,23 @@
 
     using Caliburn.Micro;
 
+    using SharePlay.Factories.Interfaces;
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels.Interfaces;
 
     internal class JoinServerViewModel : ViewModelBase, IJoinServerViewModel
     {
+        private readonly INetworkInteractionFactory _networkInteractionFactory;
+
+        private readonly IEventAggregator _eventAggregator;
+
         private readonly IPlayClientService _playClientService;
 
-        public JoinServerViewModel(IPlayClientService playClientService)
+        public JoinServerViewModel(INetworkInteractionFactory networkInteractionFactory, IEventAggregator eventAggregator, IPlayClientService playClientService)
         {
+            _networkInteractionFactory = networkInteractionFactory;
+            _eventAggregator = eventAggregator;
             _playClientService = playClientService;
         }
 
@@ -38,6 +45,11 @@
             TaskResult<bool> connectResult = _playClientService.TryConnect(NetworkAddress.Parse(targetAddress)).AsResult();
 
             yield return connectResult;
+
+            if (connectResult.Result)
+            {
+                _eventAggregator.BeginPublishOnUIThread(_networkInteractionFactory.MakeClientSenderService());
+            }
 
             Status = connectResult.Result ? "Connected" : "Disconnected";
         }

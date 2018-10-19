@@ -5,18 +5,25 @@
 
     using Caliburn.Micro;
 
+    using SharePlay.Factories.Interfaces;
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels.Interfaces;
 
     internal class HostServerViewModel : ViewModelBase, IHostServerViewModel
     {
+        private readonly INetworkInteractionFactory _networkInteractionFactory;
+
+        private readonly IEventAggregator _eventAggregator;
+
         private readonly INetworkService _networkService;
 
         private readonly IPlayServerService _playServerService;
 
-        public HostServerViewModel(INetworkService networkService, IPlayServerService playServerService)
+        public HostServerViewModel(INetworkInteractionFactory networkInteractionFactory, IEventAggregator eventAggregator, INetworkService networkService, IPlayServerService playServerService)
         {
+            _networkInteractionFactory = networkInteractionFactory;
+            _eventAggregator = eventAggregator;
             _networkService = networkService;
             _playServerService = playServerService;
 
@@ -51,6 +58,7 @@
         public void Host()
         {
             _playServerService.Host(_networkService.Port);
+            _eventAggregator.BeginPublishOnUIThread(_networkInteractionFactory.MakeServerSenderService());
         }
     }
 }
