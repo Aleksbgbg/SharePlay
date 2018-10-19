@@ -2,18 +2,22 @@
 {
     using System;
 
+    using Caliburn.Micro;
+
     using SharePlay.Services.Interfaces;
     using SharePlay.ViewModels.Interfaces;
 
-    internal class PlayerViewModel : ViewModelBase, IPlayerViewModel
+    internal class PlayerViewModel : ViewModelBase, IPlayerViewModel, IHandle<IMediaPlayerService>
     {
+        private IMediaPlayerService _mediaPlayerService;
+
         private bool _syncPlayer = true;
 
-        private readonly IMediaPlayerService _mediaPlayerService;
-
-        public PlayerViewModel(IMediaPlayerService mediaPlayerService)
+        public PlayerViewModel(IEventAggregator eventAggregator, IMediaPlayerService mediaPlayerService)
         {
             _mediaPlayerService = mediaPlayerService;
+
+            eventAggregator.Subscribe(this);
         }
 
         public bool IsPlaying => _mediaPlayerService.IsPlaying;
@@ -96,6 +100,13 @@
                     _syncPlayer = true;
                 }
             };
+        }
+
+        public void Handle(IMediaPlayerService message)
+        {
+            // Swaps out the current service for a network transmitter
+            // dummy service once a server has been hosted or joined
+            _mediaPlayerService = message;
         }
     }
 }
