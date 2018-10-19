@@ -5,9 +5,14 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePlay", "SharePlay\SharePlay.csproj", "{87828914-D11D-4B87-BD08-1B36CA68E9DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamServer", "StreamServer\StreamServer.csproj", "{52B7D224-FAF7-4B3E-BAEE-CBCEFBB449F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamServer", "StreamServer\StreamServer.csproj", "{52B7D224-FAF7-4B3E-BAEE-CBCEFBB449F6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{63EAE32D-D190-41EC-BD17-D8BE7BF121EE}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{63eae32d-d190-41ec-bd17-d8be7bf121ee}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
