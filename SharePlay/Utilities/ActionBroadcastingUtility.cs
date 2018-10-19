@@ -23,8 +23,8 @@
 
         internal void BroadcastAllActions(Action<string> broadcastMethod)
         {
-            _mediaPlayerService.Played += (sender, e) => broadcastMethod("Play");
-            _mediaPlayerService.Paused += (sender, e) => broadcastMethod("Pause");
+            _mediaPlayerService.Played += (sender, e) => broadcastMethod(nameof(IMediaPlayerService.Play));
+            _mediaPlayerService.Paused += (sender, e) => broadcastMethod(nameof(IMediaPlayerService.Pause));
         }
 
         internal void ReceiveAction(string action)
