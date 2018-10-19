@@ -142,6 +142,7 @@
     <Compile Include="Services\NetworkInteraction\ClientSenderService.cs" />
     <Compile Include="Services\NetworkInteraction\Interfaces\IClientReceiverService.cs" />
     <Compile Include="Services\NetworkInteraction\Interfaces\IClientSenderService.cs" />
+    <Compile Include="Services\NetworkInteraction\Interfaces\IReceiverService.cs" />
     <Compile Include="Services\NetworkInteraction\Interfaces\IServerReceiverService.cs" />
     <Compile Include="Services\NetworkInteraction\Interfaces\IServerSenderService.cs" />
     <Compile Include="Services\NetworkInteraction\ServerReceiverService.cs" />
