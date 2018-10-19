@@ -139,7 +139,7 @@
 
         private void Transmit(string methodName, params object[] arguments)
         {
-            _broadcastMethod(string.Join(" ", DateTime.UtcNow, methodName, arguments));
+            _broadcastMethod(string.Join(" ", DateTime.UtcNow, methodName, string.Join(" ", arguments)));
         }
     }
 }
