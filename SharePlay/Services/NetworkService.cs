@@ -36,7 +36,7 @@
 
         private void Dispose(bool disposing)
         {
-            _mainNatDevice.DeletePortMap(PortMap);
+            _mainNatDevice?.DeletePortMap(PortMap);
             FirewallUtilities.ClosePort(NetworkPort);
         }
 
