@@ -47,6 +47,7 @@
             _container.Singleton<IPlayClientService, PlayClientService>();
 
             _container.Singleton<IClientSenderService, ClientSenderService>();
+            _container.Singleton<IClientReceiverService, ClientReceiverService>();
 
             _container.Singleton<IServerSenderService, ServerSenderService>();
             _container.Singleton<IServerReceiverService, ServerReceiverService>();
