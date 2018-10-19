@@ -22,7 +22,7 @@
 
         public async Task<bool> TryConnect(NetworkAddress networkAddress)
         {
-            bool result = await Task.Run(() =>
+            bool didConnect = await Task.Run(() =>
             {
                 try
                 {
@@ -35,14 +35,14 @@
                 }
             });
 
-            if (result)
+            if (didConnect)
             {
                 _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
 
                 _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
             }
 
-            return result;
+            return didConnect;
         }
     }
 }
