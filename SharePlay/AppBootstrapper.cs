@@ -34,6 +34,7 @@
             // Register Factories
             _container.Singleton<IConnectionFactory, ConnectionFactory>();
             _container.Singleton<INetworkFactory, NetworkFactory>();
+            _container.Singleton<INetworkInteractionFactory, NetworkInteractionFactory>();
 
             // Register Services
             _container.Singleton<IEventAggregator, EventAggregator>();

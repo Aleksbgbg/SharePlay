@@ -125,7 +125,9 @@
     <Compile Include="Factories\ConnectionFactory.cs" />
     <Compile Include="Factories\Interfaces\IConnectionFactory.cs" />
     <Compile Include="Factories\Interfaces\INetworkFactory.cs" />
+    <Compile Include="Factories\Interfaces\INetworkInteractionFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
+    <Compile Include="Factories\NetworkInteractionFactory.cs" />
     <Compile Include="Helpers\RoutedEventTrigger.cs" />
     <Compile Include="Models\MessageContext.cs" />
     <Compile Include="Models\NetworkAddress.cs" />
