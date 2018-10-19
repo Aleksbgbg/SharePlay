@@ -1,43 +1,61 @@
 ﻿namespace SharePlay.Utilities
 {
     using System;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
 
     using Caliburn.Micro;
 
-    using SharePlay.Services.Interfaces;
+    using SharePlay.Models;
+    using SharePlay.Services.NetworkInteraction.Interfaces;
 
     internal class ActionBroadcastingUtility
     {
-        private readonly IMediaPlayerService _mediaPlayerService;
+        private readonly IReceiverService _receiverService;
 
-        private readonly MethodInfo[] _playerMethods;
+        private readonly MethodInfo[] _receiverMethods;
 
-        internal ActionBroadcastingUtility(IMediaPlayerService mediaPlayerService)
+        internal ActionBroadcastingUtility(IReceiverService receiverService)
         {
-            _mediaPlayerService = mediaPlayerService;
+            _receiverService = receiverService;
 
-            _playerMethods = mediaPlayerService.GetType().GetMethods();
-        }
-
-        internal void BroadcastAllActions(Action<string> broadcastMethod)
-        {
-            _mediaPlayerService.Played += (sender, e) => broadcastMethod(nameof(IMediaPlayerService.Play));
-            _mediaPlayerService.Paused += (sender, e) => broadcastMethod(nameof(IMediaPlayerService.Pause));
+            _receiverMethods = receiverService.GetType().GetMethods();
         }
 
         internal void ReceiveAction(string action)
         {
             string[] commands = action.Split(' ');
 
-            string methodName = commands[0];
+            int methodNameIndex;
 
-            object[] arguments = commands.Length == 1 ? null : commands.Skip(1).Cast<object>().ToArray();
+            if (DateTime.TryParse(string.Concat(commands[0], " ", commands[1]), out DateTime sendTime))
+            {
+                ((IClientReceiverService)_receiverService).MessageContext = new MessageContext(sendTime);
+                methodNameIndex = 2;
+            }
+            else
+            {
+                methodNameIndex = 0;
+            }
 
-            MethodInfo targetMethod = _playerMethods.Single(method => method.Name == methodName);
+            string methodName = commands[methodNameIndex];
 
-            Execute.BeginOnUIThread(() => targetMethod.Invoke(_mediaPlayerService, arguments));
+            MethodInfo targetMethod = _receiverMethods.Single(method => method.Name == methodName);
+
+            ParameterInfo[] parameters = targetMethod.GetParameters();
+            object[] arguments = new object[parameters.Length];
+
+            for (int parameterIndex = 0; parameterIndex < parameters.Length; ++parameterIndex)
+            {
+                Type parameterType = parameters[parameterIndex].ParameterType;
+
+                TypeConverter converter = TypeDescriptor.GetConverter(parameterType);
+
+                arguments[parameterIndex] = converter.ConvertFromString(commands[methodNameIndex + 1 + parameterIndex]);
+            }
+
+            Execute.BeginOnUIThread(() => targetMethod.Invoke(_receiverService, arguments));
         }
     }
 }
