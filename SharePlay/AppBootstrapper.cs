@@ -47,6 +47,7 @@
             _container.Singleton<IPlayClientService, PlayClientService>();
 
             _container.Singleton<IClientSenderService, ClientSenderService>();
+            _container.Singleton<IServerSenderService, ServerSenderService>();
 
             // Register ViewModels
             _container.Singleton<IShellViewModel, ShellViewModel>();
