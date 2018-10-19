@@ -3,21 +3,29 @@
     using System.Net.Sockets;
     using System.Threading.Tasks;
 
+    using SharePlay.Factories.Interfaces;
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
+    using SharePlay.Services.NetworkInteraction.Interfaces;
     using SharePlay.Utilities;
 
     using SimpleTCP;
 
     internal class PlayClientService : IPlayClientService
     {
+        private readonly INetworkInteractionFactory _networkInteractionFactory;
+
         private readonly SimpleTcpClient _tcpClient = new SimpleTcpClient();
 
-        private readonly ActionBroadcastingUtility _actionBroadcastingUtility;
+        private ActionBroadcastingUtility _actionBroadcastingUtility;
 
-        public PlayClientService(IMediaPlayerService mediaPlayerService)
+        public PlayClientService(INetworkInteractionFactory networkInteractionFactory, IClientSenderService clientSenderService)
         {
-            _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
+            _tcpClient.Delimiter = (byte)'\n';
+
+            _networkInteractionFactory = networkInteractionFactory;
+
+            clientSenderService.Initialize(_tcpClient.WriteLine);
         }
 
         public async Task<bool> TryConnect(NetworkAddress networkAddress)
@@ -37,9 +45,8 @@
 
             if (didConnect)
             {
-                _tcpClient.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
-
-                _actionBroadcastingUtility.BroadcastAllActions(_tcpClient.Write);
+                _actionBroadcastingUtility = new ActionBroadcastingUtility(_networkInteractionFactory.MakeClientReceiverService());
+                _tcpClient.DelimiterDataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
             }
 
             return didConnect;

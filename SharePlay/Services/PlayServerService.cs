@@ -4,20 +4,28 @@
     using System.Net;
 
     using SharePlay.EventArgs;
+    using SharePlay.Factories.Interfaces;
     using SharePlay.Services.Interfaces;
+    using SharePlay.Services.NetworkInteraction.Interfaces;
     using SharePlay.Utilities;
 
     using SimpleTCP;
 
     internal class PlayServerService : IPlayServerService
     {
+        private readonly INetworkInteractionFactory _networkInteractionFactory;
+
         private readonly SimpleTcpServer _tcpServer = new SimpleTcpServer();
 
-        private readonly ActionBroadcastingUtility _actionBroadcastingUtility;
+        private ActionBroadcastingUtility _actionBroadcastingUtility;
 
-        public PlayServerService(IMediaPlayerService mediaPlayerService)
+        public PlayServerService(INetworkInteractionFactory networkInteractionFactory, IServerSenderService serverSenderService)
         {
-            _actionBroadcastingUtility = new ActionBroadcastingUtility(mediaPlayerService);
+            _tcpServer.Delimiter = (byte)'\n';
+
+            _networkInteractionFactory = networkInteractionFactory;
+
+            serverSenderService.Initialize(_tcpServer.BroadcastLine);
         }
 
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
@@ -28,12 +36,12 @@
         {
             _tcpServer.Start(IPAddress.Any, port);
 
+            _actionBroadcastingUtility = new ActionBroadcastingUtility(_networkInteractionFactory.MakeServerReceiverService());
+
             _tcpServer.ClientConnected += (sender, e) => ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
             _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
 
-            _tcpServer.DataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
-
-            _actionBroadcastingUtility.BroadcastAllActions(_tcpServer.Broadcast);
+            _tcpServer.DelimiterDataReceived += (sender, e) => _actionBroadcastingUtility.ReceiveAction(e.MessageString);
         }
     }
 }
