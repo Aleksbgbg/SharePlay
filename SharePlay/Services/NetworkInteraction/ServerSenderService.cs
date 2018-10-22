@@ -73,11 +73,7 @@
         {
             get => _mediaPlayerService.Volume;
 
-            set
-            {
-                Transmit(nameof(Volume), value);
-                _mediaPlayerService.Volume = value;
-            }
+            set => _mediaPlayerService.Volume = value;
         }
 
         public double Speed

@@ -22,11 +22,6 @@
             _mediaPlayerService.Progress = value + MessageContext.MessageDelay;
         }
 
-        public void Volume(double value)
-        {
-            _mediaPlayerService.Volume = value;
-        }
-
         public void Speed(double value)
         {
             _mediaPlayerService.Progress += TimeSpan.FromSeconds((value - _mediaPlayerService.Speed) * MessageContext.MessageDelay.TotalSeconds);

@@ -74,12 +74,7 @@
         {
             get => _mediaPlayerService.Volume;
 
-            set
-            {
-                if (Volume == value) return;
-
-                _broadcastMethod(string.Concat(nameof(Volume), " ", value));
-            }
+            set => _mediaPlayerService.Volume = value;
         }
 
         public double Speed

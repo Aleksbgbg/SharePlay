@@ -18,11 +18,6 @@
             _serverSenderService.Progress = value;
         }
 
-        public void Volume(double value)
-        {
-            _serverSenderService.Volume = value;
-        }
-
         public void Speed(double value)
         {
             _serverSenderService.Speed = value;

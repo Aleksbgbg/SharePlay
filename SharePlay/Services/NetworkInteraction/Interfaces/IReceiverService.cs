@@ -6,8 +6,6 @@
     {
         void Progress(TimeSpan value);
 
-        void Volume(double value);
-
         void Speed(double value);
 
         void Stop();
