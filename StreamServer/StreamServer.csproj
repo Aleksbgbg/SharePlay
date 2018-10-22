@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <None Update="Resources\youtube-dl.exe">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
