@@ -17,6 +17,16 @@
 
         public MessageContext MessageContext { private get; set; }
 
+        public void Sync(TimeSpan value)
+        {
+            TimeSpan realProgress = value + MessageContext.MessageDelay;
+
+            if (Math.Abs(_mediaPlayerService.Progress.TotalSeconds - realProgress.TotalSeconds) > 0.1)
+            {
+                _mediaPlayerService.Progress = realProgress;
+            }
+        }
+
         public void Progress(TimeSpan value)
         {
             _mediaPlayerService.Progress = value + MessageContext.MessageDelay;
