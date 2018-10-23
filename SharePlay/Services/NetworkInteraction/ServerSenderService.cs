@@ -1,6 +1,7 @@
 ﻿namespace SharePlay.Services.NetworkInteraction
 {
     using System;
+    using System.Timers;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -10,7 +11,14 @@
 
     internal class ServerSenderService : IServerSenderService
     {
+        private const double SyncIntervalMs = 2000.0;
+
         private readonly IMediaPlayerService _mediaPlayerService;
+
+        private readonly Timer _syncTimer = new Timer(SyncIntervalMs)
+        {
+            AutoReset = true
+        };
 
         private Action<string> _broadcastMethod;
 
@@ -95,24 +103,37 @@
         public void Initialize(Action<string> broadcastMethod)
         {
             _broadcastMethod = broadcastMethod;
+
+            _syncTimer.Elapsed += (sender, e) => _broadcastMethod(string.Concat(nameof(IClientReceiverService.Sync), " ", _mediaPlayerService.Progress));
+
+            if (IsPlaying)
+            {
+                _syncTimer.Start();
+            }
         }
 
         public void Stop()
         {
             Transmit(nameof(Stop));
             _mediaPlayerService.Stop();
+
+            _syncTimer.Stop();
         }
 
         public void Play()
         {
             Transmit(nameof(Play));
             _mediaPlayerService.Play();
+
+            _syncTimer.Start();
         }
 
         public void Pause()
         {
             Transmit(nameof(Pause));
             _mediaPlayerService.Pause();
+
+            _syncTimer.Stop();
         }
 
         public void TogglePlay()
@@ -131,6 +152,8 @@
         {
             Transmit(nameof(Load), url);
             _mediaPlayerService.Load(url);
+
+            _syncTimer.Start();
         }
 
         private void Transmit(string methodName, params object[] arguments)
