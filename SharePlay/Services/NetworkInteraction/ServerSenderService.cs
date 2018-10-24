@@ -5,9 +5,12 @@
     using System.Windows;
     using System.Windows.Controls;
 
+    using Caliburn.Micro;
+
     using SharePlay.EventArgs;
     using SharePlay.Services.Interfaces;
     using SharePlay.Services.NetworkInteraction.Interfaces;
+    using SharePlay.Utilities;
 
     internal class ServerSenderService : IServerSenderService
     {
@@ -104,7 +107,14 @@
         {
             _broadcastMethod = broadcastMethod;
 
-            _syncTimer.Elapsed += (sender, e) => _broadcastMethod(string.Concat(nameof(IClientReceiverService.Sync), " ", _mediaPlayerService.Progress));
+            _syncTimer.Elapsed += async (sender, e) =>
+            {
+                TimeSpan progress = new TimeSpan();
+
+                await Execute.OnUIThreadAsync(() => progress = _mediaPlayerService.Progress);
+
+                Transmit(nameof(IClientReceiverService.Sync), progress);
+            };
 
             if (IsPlaying)
             {
@@ -158,7 +168,7 @@
 
         private void Transmit(string methodName, params object[] arguments)
         {
-            _broadcastMethod(string.Join(" ", DateTime.UtcNow, methodName, string.Join(" ", arguments)));
+            _broadcastMethod(string.Join(" ", TimeUtility.TimeSinceSyncEpoch.Ticks, methodName, string.Join(" ", arguments)));
         }
     }
 }
