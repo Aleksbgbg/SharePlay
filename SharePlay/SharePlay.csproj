@@ -151,7 +151,6 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\PlayClientService.cs" />
     <Compile Include="Services\PlayServerService.cs" />
-    <Compile Include="Utilities\ActionBroadcastingUtility.cs" />
     <Compile Include="Utilities\FirewallUtilities.cs" />
     <Compile Include="Utilities\TimeUtility.cs" />
     <Compile Include="ViewModels\HostServerViewModel.cs" />
