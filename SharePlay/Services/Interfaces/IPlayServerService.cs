@@ -6,9 +6,9 @@
 
     internal interface IPlayServerService
     {
-        event EventHandler<ClientConnectedEventArgs> ClientConnected;
+        event EventHandler<ClientConnectionChangedEventArgs> ClientConnected;
 
-        event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
+        event EventHandler<ClientConnectionChangedEventArgs> ClientDisconnected;
 
         void Host(int port);
     }

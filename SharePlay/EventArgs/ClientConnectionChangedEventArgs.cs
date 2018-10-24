@@ -3,9 +3,9 @@
     using System;
     using System.Net;
 
-    internal class ClientConnectedEventArgs : EventArgs
+    internal class ClientConnectionChangedEventArgs : EventArgs
     {
-        public ClientConnectedEventArgs(IPAddress address)
+        public ClientConnectionChangedEventArgs(IPAddress address)
         {
             Address = address;
         }

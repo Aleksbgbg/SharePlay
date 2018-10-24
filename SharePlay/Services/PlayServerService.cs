@@ -27,9 +27,9 @@
             serverSenderService.Initialize(_tcpServer.BroadcastLine);
         }
 
-        public event EventHandler<ClientConnectedEventArgs> ClientConnected;
+        public event EventHandler<ClientConnectionChangedEventArgs> ClientConnected;
 
-        public event EventHandler<ClientConnectedEventArgs> ClientDisconnected;
+        public event EventHandler<ClientConnectionChangedEventArgs> ClientDisconnected;
 
         public void Host(int port)
         {
@@ -62,10 +62,10 @@
                     }
                 }
 
-                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
+                ClientConnected?.Invoke(this, new ClientConnectionChangedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
             };
 
-            _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
+            _tcpServer.ClientDisconnected += (sender, e) => ClientDisconnected?.Invoke(this, new ClientConnectionChangedEventArgs(((IPEndPoint)e.Client.RemoteEndPoint).Address));
 
             _tcpServer.DelimiterDataReceived += (sender, e) =>
             {
