@@ -4,9 +4,9 @@
 
     internal class MessageContext
     {
-        internal MessageContext(DateTime messageSentTime)
+        internal MessageContext(TimeSpan messageDelay)
         {
-            MessageDelay = DateTime.UtcNow - messageSentTime;
+            MessageDelay = messageDelay;
         }
 
         public TimeSpan MessageDelay { get; }
