@@ -5,21 +5,24 @@
     using SharePlay.Models;
     using SharePlay.Services.Interfaces;
     using SharePlay.Services.NetworkInteraction.Interfaces;
+    using SharePlay.Utilities;
 
-    internal class ClientReceiverService : IClientReceiverService
+    internal class ClientReceiverService : ReceiverService, IClientReceiverService
     {
         private readonly IMediaPlayerService _mediaPlayerService;
+
+        private MessageContext _messageContext;
 
         public ClientReceiverService(IMediaPlayerService mediaPlayerService)
         {
             _mediaPlayerService = mediaPlayerService;
         }
 
-        public MessageContext MessageContext { private get; set; }
+        private protected override int MethodNameIndex => 1;
 
         public void Sync(TimeSpan value)
         {
-            TimeSpan realProgress = value + MessageContext.MessageDelay;
+            TimeSpan realProgress = value + _messageContext.MessageDelay;
 
             if (Math.Abs(_mediaPlayerService.Progress.TotalSeconds - realProgress.TotalSeconds) > 0.1)
             {
@@ -27,36 +30,41 @@
             }
         }
 
-        public void Progress(TimeSpan value)
+        private protected override void Process(string[] commands)
         {
-            _mediaPlayerService.Progress = value + MessageContext.MessageDelay;
+            _messageContext = new MessageContext(TimeSpan.FromTicks(long.Parse(commands[0])) - TimeUtility.TimeSinceSyncEpoch);
         }
 
-        public void Speed(double value)
+        private void Progress(TimeSpan value)
         {
-            _mediaPlayerService.Progress += TimeSpan.FromSeconds((value - _mediaPlayerService.Speed) * MessageContext.MessageDelay.TotalSeconds);
+            _mediaPlayerService.Progress = value + _messageContext.MessageDelay;
+        }
+
+        private void Speed(double value)
+        {
+            _mediaPlayerService.Progress += TimeSpan.FromSeconds((value - _mediaPlayerService.Speed) * _messageContext.MessageDelay.TotalSeconds);
             _mediaPlayerService.Speed = value;
         }
 
-        public void Stop()
+        private void Stop()
         {
             _mediaPlayerService.Stop();
-            _mediaPlayerService.Progress -= MessageContext.MessageDelay;
+            _mediaPlayerService.Progress -= _messageContext.MessageDelay;
         }
 
-        public void Play()
+        private void Play()
         {
             _mediaPlayerService.Play();
-            _mediaPlayerService.Progress += MessageContext.MessageDelay;
+            _mediaPlayerService.Progress += _messageContext.MessageDelay;
         }
 
-        public void Pause()
+        private void Pause()
         {
             _mediaPlayerService.Pause();
-            _mediaPlayerService.Progress -= MessageContext.MessageDelay;
+            _mediaPlayerService.Progress -= _messageContext.MessageDelay;
         }
 
-        public void Load(string url)
+        private void Load(string url)
         {
             _mediaPlayerService.Load(url);
         }
