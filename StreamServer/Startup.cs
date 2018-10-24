@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using StreamServer.Extensions;
     using StreamServer.Services;
     using StreamServer.Services.Interfaces;
 
@@ -33,6 +34,8 @@
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMockRequestFilter();
 
             app.UseMvc();
         }
