@@ -6,7 +6,7 @@
 
     using Microsoft.TeamFoundation.Common;
 
-    internal static class FirewallUtilities
+    internal static class FirewallUtility
     {
         private static readonly Dictionary<Type, string> FirewallEntityProgIds = new Dictionary<Type, string>
         {
@@ -16,7 +16,7 @@
 
         private static readonly INetFwProfile FirewallProfile;
 
-        static FirewallUtilities()
+        static FirewallUtility()
         {
             FirewallProfile = GetInstance<INetFwMgr>().LocalPolicy.CurrentProfile;
         }

@@ -37,7 +37,7 @@
         private void Dispose(bool disposing)
         {
             _mainNatDevice?.DeletePortMap(PortMap);
-            FirewallUtilities.ClosePort(NetworkPort);
+            FirewallUtility.ClosePort(NetworkPort);
         }
 
         public Task ConfigureMachineForHosting()
@@ -51,7 +51,7 @@
 
                 Setup(e.Device);
 
-                FirewallUtilities.OpenPort(NetworkPort, "SharePlay");
+                FirewallUtility.OpenPort(NetworkPort, "SharePlay");
 
                 taskCompletionSource.SetResult(null);
             }
