@@ -4,7 +4,7 @@
 
     using SharePlay.Services.NetworkInteraction.Interfaces;
 
-    internal class ServerReceiverService : IServerReceiverService
+    internal class ServerReceiverService : ReceiverService, IServerReceiverService
     {
         private readonly IServerSenderService _serverSenderService;
 
@@ -13,32 +13,32 @@
             _serverSenderService = serverSenderService;
         }
 
-        public void Progress(TimeSpan value)
+        private void Progress(TimeSpan value)
         {
             _serverSenderService.Progress = value;
         }
 
-        public void Speed(double value)
+        private void Speed(double value)
         {
             _serverSenderService.Speed = value;
         }
 
-        public void Stop()
+        private void Stop()
         {
             _serverSenderService.Stop();
         }
 
-        public void Play()
+        private void Play()
         {
             _serverSenderService.Play();
         }
 
-        public void Pause()
+        private void Pause()
         {
             _serverSenderService.Pause();
         }
 
-        public void Load(string url)
+        private void Load(string url)
         {
             _serverSenderService.Load(url);
         }
