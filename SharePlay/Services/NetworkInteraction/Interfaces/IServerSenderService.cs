@@ -4,8 +4,7 @@
 
     using SharePlay.Services.Interfaces;
 
-    internal interface IServerSenderService : IMediaPlayerService
+    internal interface IServerSenderService : ISenderService, IMediaPlayerService
     {
-        void Initialize(Action<string> broadcastMethod);
     }
 }

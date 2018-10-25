@@ -1,11 +1,8 @@
 ﻿namespace SharePlay.Services.NetworkInteraction.Interfaces
 {
-    using System;
-
     using SharePlay.Services.Interfaces;
 
-    internal interface IClientSenderService : IMediaPlayerService
+    internal interface IClientSenderService : ISenderService, IMediaPlayerService
     {
-        void Initialize(Action<string> broadcastMethod);
     }
 }
