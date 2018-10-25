@@ -1,6 +1,7 @@
 ﻿namespace SharePlay.Services.NetworkInteraction
 {
     using System;
+    using System.Collections.Generic;
     using System.Timers;
     using System.Windows;
     using System.Windows.Controls;
@@ -12,7 +13,7 @@
     using SharePlay.Services.NetworkInteraction.Interfaces;
     using SharePlay.Utilities;
 
-    internal class ServerSenderService : IServerSenderService
+    internal class ServerSenderService : SenderService, IServerSenderService
     {
         private const double SyncIntervalMs = 2000.0;
 
@@ -22,8 +23,6 @@
         {
             AutoReset = true
         };
-
-        private Action<string> _broadcastMethod;
 
         public ServerSenderService(IMediaPlayerService mediaPlayerService)
         {
@@ -73,7 +72,10 @@
 
             set
             {
-                Transmit(nameof(Progress), value);
+                // TODO: Ensure that these value checks are worth the effort
+                if (Progress == value) return;
+
+                TransmitMemberCall(arguments: value);
                 _mediaPlayerService.Progress = value;
             }
         }
@@ -93,7 +95,10 @@
 
             set
             {
-                Transmit(nameof(Speed), value);
+                // TODO: Ensure that these value checks are worth the effort
+                if (Speed == value) return;
+
+                TransmitMemberCall(arguments: value);
                 _mediaPlayerService.Speed = value;
             }
         }
@@ -103,46 +108,27 @@
             throw new NotSupportedException();
         }
 
-        public void Initialize(Action<string> broadcastMethod)
-        {
-            _broadcastMethod = broadcastMethod;
-
-            _syncTimer.Elapsed += async (sender, e) =>
-            {
-                TimeSpan progress = new TimeSpan();
-
-                await Execute.OnUIThreadAsync(() => progress = _mediaPlayerService.Progress);
-
-                Transmit(nameof(IClientReceiverService.Sync), progress);
-            };
-
-            if (IsPlaying)
-            {
-                _syncTimer.Start();
-            }
-        }
-
         public void Stop()
         {
-            Transmit(nameof(Stop));
-            _mediaPlayerService.Stop();
+            TransmitMemberCall();
 
+            _mediaPlayerService.Stop();
             _syncTimer.Stop();
         }
 
         public void Play()
         {
-            Transmit(nameof(Play));
-            _mediaPlayerService.Play();
+            TransmitMemberCall();
 
+            _mediaPlayerService.Play();
             _syncTimer.Start();
         }
 
         public void Pause()
         {
-            Transmit(nameof(Pause));
-            _mediaPlayerService.Pause();
+            TransmitMemberCall();
 
+            _mediaPlayerService.Pause();
             _syncTimer.Stop();
         }
 
@@ -160,15 +146,31 @@
 
         public void Load(string url)
         {
-            Transmit(nameof(Load), url);
-            _mediaPlayerService.Load(url);
+            TransmitMemberCall(arguments: url);
 
-            _syncTimer.Start();
+            _mediaPlayerService.Load(url);
         }
 
-        private void Transmit(string methodName, params object[] arguments)
+        private protected override void OnInitialize()
         {
-            _broadcastMethod(string.Join(" ", TimeUtility.TimeSinceSyncEpoch.Ticks, methodName, string.Join(" ", arguments)));
+            _syncTimer.Elapsed += async (sender, e) =>
+            {
+                TimeSpan progress = new TimeSpan();
+
+                await Execute.OnUIThreadAsync(() => progress = _mediaPlayerService.Progress);
+
+                TransmitMemberCall(nameof(IClientReceiverService.Sync), progress);
+            };
+
+            if (IsPlaying)
+            {
+                _syncTimer.Start();
+            }
+        }
+
+        private protected override void InsertArgumentsBeforeTransmission(List<string> transmissionArguments)
+        {
+            transmissionArguments.Insert(0, TimeUtility.TimeSinceSyncEpoch.Ticks.ToString());
         }
     }
 }

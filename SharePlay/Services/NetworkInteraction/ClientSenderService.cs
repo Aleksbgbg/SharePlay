@@ -8,11 +8,9 @@
     using SharePlay.Services.Interfaces;
     using SharePlay.Services.NetworkInteraction.Interfaces;
 
-    internal class ClientSenderService : IClientSenderService
+    internal class ClientSenderService : SenderService, IClientSenderService
     {
         private readonly IMediaPlayerService _mediaPlayerService;
-
-        private Action<string> _broadcastMethod;
 
         public ClientSenderService(IMediaPlayerService mediaPlayerService)
         {
@@ -64,7 +62,7 @@
             {
                 if (Progress == value) return;
 
-                _broadcastMethod(string.Concat(nameof(Progress), " ", value));
+                TransmitMemberCall(arguments: value);
             }
         }
 
@@ -85,7 +83,7 @@
             {
                 if (Speed == value) return;
 
-                _broadcastMethod(string.Concat(nameof(Speed), " ", value));
+                TransmitMemberCall(arguments: value);
             }
         }
 
@@ -94,24 +92,19 @@
             throw new NotSupportedException();
         }
 
-        public void Initialize(Action<string> broadcastMethod)
-        {
-            _broadcastMethod = broadcastMethod;
-        }
-
         public void Stop()
         {
-            _broadcastMethod(nameof(Stop));
+            TransmitMemberCall();
         }
 
         public void Play()
         {
-            _broadcastMethod(nameof(Play));
+            TransmitMemberCall();
         }
 
         public void Pause()
         {
-            _broadcastMethod(nameof(Pause));
+            TransmitMemberCall();
         }
 
         public void TogglePlay()
@@ -128,7 +121,7 @@
 
         public void Load(string url)
         {
-            _broadcastMethod(string.Concat(nameof(Load), " ", url));
+            TransmitMemberCall(arguments: url);
         }
     }
 }
